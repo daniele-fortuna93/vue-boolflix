@@ -14,7 +14,7 @@ var app = new Vue(
         params:{
           api_key: '1824bf509354c7052f4a42663578bec1',
           query: 'ritorno al futuro',
-          language: 'it-IT'
+          language: self.lang
         }
       }).then(function (response){
         for (var i = 0; i < response.data.results.length; i++) {
