@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    <title>Boolflix</title>
+  </head>
+  <body>
+    <div id="root" class="wrapper">
+      <header>
+        <h1>Boolflix</h1>
+        <div class="search">
+          <input type="text" name="" value="" v-model="name">
+          <button type="button" name="button" @click="search">Cerca</button>
+        </div>
+      </header>
+      <main>
+        <div class="container">
+          <div v-for="movie in searchMovie" class="movie">
+            <img class="movie_img" :src="urlImg + movie.poster_path" alt="">
+            <div class="movie_description">
+              <h2 class="movie_title mb-10"><span>Titolo:</span> {{ movie.title }}</h2>
+              <h2 class="movie_original_title mb-10"><span>Titolo originale:</span>{{ movie.original_title }}</h2>
+              <p class="vote mb-10"><span>Voto:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i></p>
+              <p class="overview"><span>Overview:</span>{{ movie.overview }}</p>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="movie">
+          <img class="movie_img" src="https://image.tmdb.org/t/p/w400/1J1e8Uslw8MAE7mIVFh6TU9mPt8.jpg" alt="">
+          <div class="movie_description">
+            <h2 class="movie_title">Dragon ball</h2>
+            <h2 class="movie_original_title">Dragon ball</h2>
+            <p class="vote">voto</p>
+            <p class="overview">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div> -->
+      </main>
+    </div>
+    <script src="js/script.js" charset="utf-8"></script>
+  </body>
+</html>
