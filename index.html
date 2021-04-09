@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <!-- vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -19,14 +19,27 @@
   <body>
     <div id="root" class="wrapper">
       <header>
-        <h1>Boolflix</h1>
+        <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210409/ece45352aef09f28b6d8f4d69a0cdb32.png" alt="netflix-font" border="0" class="logo"></a>
         <div class="search">
-          <input type="text" name="" value="" v-model="name">
+          <button class="btn" type="button" name="button" @click="lang = 'it-IT'" > <img class="btn_img" :class="lang == 'it-IT' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_Italy.gif" alt=""> </button>
+          <button class="btn" type="button" name="button" @click="lang = 'en-US'"> <img class="btn_img" :class="lang == 'en-US' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_United-Kingdom.gif" alt=""> </button>
+          <input type="text" name="" value="" v-model="name" @keydown.enter="search">
           <button type="button" name="button" @click="search">Cerca</button>
         </div>
       </header>
       <main>
-        <div class="container">
+        <div class="container" v-if="searchMovie.length == 0">
+          <div v-for="movie in movieHome" class="movie">
+            <img class="movie_img" :src="urlImg + movie.poster_path" alt="">
+            <div class="movie_description">
+              <h2 class="movie_title mb-10"><span>Titolo:</span> {{ movie.title }}</h2>
+              <h2 class="movie_original_title mb-10"><span>Titolo originale:</span>{{ movie.original_title }}</h2>
+              <p class="vote mb-10"><span>Voto:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i></p>
+              <p class="overview"><span>Overview:</span>{{ movie.overview }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="container" v-else>
           <div v-for="movie in searchMovie" class="movie">
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="">
             <div class="movie_description">
