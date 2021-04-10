@@ -16,6 +16,10 @@ h2{
 }
 .overview{
   font-weight: 300;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .movie_description span{
   color: #fff;
@@ -78,6 +82,8 @@ main{
   position: relative;
   width: 350px;
   margin: 20px;
+  overflow: hidden;
+  border-radius: 12px;
 }
 .movie_img{
   width: 100%;
