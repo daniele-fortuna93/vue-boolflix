@@ -164,3 +164,14 @@ main{
   padding: 5px;
   margin-left: 5px;
 }
+/* /main */
+/* responsive */
+@media screen and (max-width: 800px) {
+  .logo{
+    width: 130px;
+  }
+  .btn{
+    width: 30px;
+    height: 15px;
+  }
+}
