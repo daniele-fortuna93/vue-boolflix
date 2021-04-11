@@ -43,7 +43,8 @@ var app = new Vue(
       nameLang: 'Nome',
       voteLang: 'Voto',
       totalPag: 1,
-      currentPage: 1
+      currentPage: 1,
+      searchShow: false
     },
     mounted: function(){
       const self = this;

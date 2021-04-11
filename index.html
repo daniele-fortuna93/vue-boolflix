@@ -25,9 +25,11 @@
           <button class="btn" type="button" name="button" @click="lang = 'en-US', titleLang = 'Title', originalTitleLang = 'Original Title', nameLang = 'Name', voteLang = 'Vote'"> <img class="btn_img" :class="lang == 'en-US' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_United-Kingdom.gif" alt=""> </button>
         </div>
         <div class="search">
-          <i class="fas fa-search search_icon"></i>
-          <input class="input_search" placeholder="Cerca film o serie tv"type="text" name="" value="" v-model="name" @keydown.enter="search">
-          <button type="button" name="button" @click="search">Cerca</button>
+          <i class="fas fa-search search_icon" @click="searchShow = !searchShow"></i>
+          <transition name="fade">
+            <input class="input_search" placeholder="Cerca film o serie tv"type="text" name="" value="" v-model="name" @keydown.enter="search" v-if="searchShow">
+          </transition>
+          <button class="search_btn" type="button" name="button" @click="search">Cerca</button>
           <input type="radio" id="searchAll"name="" value="all" v-model="typeSearch">
           <label for="searchAll">All</label>
           <input type="radio" id="searchMovie"name="" value="movie" v-model="typeSearch">
