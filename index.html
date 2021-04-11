@@ -38,7 +38,7 @@
           <label for="searchTv">Tv</label>
         </div>
       </header>
-      <main>
+      <main @click="searchShow = false">
         <div class="container" v-if="searchResults.length == 0">
           <div v-for="movie in movieHome" class="movie">
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="">
