@@ -11,6 +11,14 @@ h2{
   font-size: 16px;
   font-weight: 300;
 }
+header label{
+  color: #fff;
+}
+.search_icon{
+  font-size: 20px;
+  color: #fff;
+  vertical-align: middle;
+}
 .vote{
   color: yellow;
 }
@@ -31,6 +39,10 @@ h2{
 }
 /* /typo */
 /* mix */
+.search_page.active_page{
+  color: #000;
+  background-color: #fff;
+}
 .mb-10{
   margin-bottom: 10px;
 }
@@ -52,6 +64,7 @@ h2{
   opacity: 1;
 }
 /* /mix */
+/* header */
 header{
   height: 80px;
   background-color: #000;
@@ -67,7 +80,18 @@ header{
 }
 .logo{
   width: 200px;
+  vertical-align: middle;
 }
+.input_search{
+  color: #fff;
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  background-color: #101010;
+  outline: none;
+}
+/* /header */
+/* main */
 main{
   background-color: #101010;
   min-height: 100vh;
@@ -81,6 +105,7 @@ main{
 .movie{
   position: relative;
   width: 350px;
+  height: 500px;
   margin: 20px;
   overflow: hidden;
   border-radius: 12px;
@@ -112,4 +137,17 @@ main{
 .movie:hover .movie_description{
   opacity: 1;
   cursor: pointer;
+}
+.search_pages{
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+.search_page{
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 5px;
+  margin-left: 5px;
 }

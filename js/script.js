@@ -5,8 +5,7 @@ var app = new Vue(
       movieHome:[],
       name: '',
       urlImg: 'https://image.tmdb.org/t/p/w500',
-      searchMovie:[],
-      searchTv: [],
+      searchResults:[],
       lang: 'it-IT',
       languages:[
         {
@@ -37,7 +36,14 @@ var app = new Vue(
           originalLanguage: 'pt',
           flag: 'https://www.33ff.com/flags/S_flags/flags_of_Sweden.gif'
         }
-      ]
+      ],
+      typeSearch: 'tv',
+      titleLang: 'Titolo',
+      originalTitleLang: 'Titolo originale',
+      nameLang: 'Nome',
+      voteLang: 'Voto',
+      totalPag: 1,
+      currentPage: 1
     },
     mounted: function(){
       const self = this;
@@ -51,46 +57,187 @@ var app = new Vue(
         for (var i = 0; i < response.data.results.length; i++) {
           self.movieHome.push(response.data.results[i]);
           self.movieHome[i].vote_average = Math.ceil(self.movieHome[i].vote_average / 2);
+          self.movieHome[i].type = 'Film';
         }
       })
     },
     methods:{
       search: function() {
         const self = this;
-        self.searchMovie = [];
-        self.searchTv = [];
+        self.searchResults = [];
         if ( self.name != '') {
-          axios.get('https://api.themoviedb.org/3/search/movie', {
-            params:{
-              api_key: '1824bf509354c7052f4a42663578bec1',
-              query: self.name,
-              language: self.lang
-            }
-          }).then(function (response){
-            for (var i = 0; i < response.data.results.length; i++) {
-              self.searchMovie.push(response.data.results[i]);
-              self.searchMovie[i].vote_average = Math.ceil(self.searchMovie[i].vote_average / 2);
-              for (var j = 0; j < self.languages.length; j++) {
-                if ( self.searchMovie[i].original_language == self.languages[j].originalLanguage ) {
-                  self.searchMovie[i].original_language = self.languages[j].flag;
+          if ( self.typeSearch == 'movie') {
+            axios.get('https://api.themoviedb.org/3/search/movie', {
+              params:{
+                  api_key: '1824bf509354c7052f4a42663578bec1',
+                  query: self.name,
+                  language: self.lang
+              }
+            }).then(function (response){
+              self.totalPag = response.data.total_pages;
+              for (var i = 0; i < response.data.results.length; i++) {
+                self.searchResults.push(response.data.results[i]);
+                self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+                self.searchResults[i].media_type = 'Movie';
+                for (let j = 0; j < self.languages.length; j++) {
+                  if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                    self.searchResults[i].original_language = self.languages[j].flag;
+                  }
                 }
               }
-            }
-          });
-          axios.get('https://api.themoviedb.org/3/search/tv', {
-            params:{
+            });
+          } else if ( self.typeSearch == 'tv' ) {
+            axios.get('https://api.themoviedb.org/3/search/tv', {
+              params:{
+                  api_key: '1824bf509354c7052f4a42663578bec1',
+                  query: self.name,
+                  language: self.lang
+              }
+            }).then(function (response){
+              self.totalPag = response.data.total_pages;
+              for (var i = 0; i < response.data.results.length; i++) {
+                self.searchResults.push(response.data.results[i]);
+                self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+                self.searchResults[i].media_type = 'Tv Series';
+                self.searchResults[i].title = self.searchResults[i].name;
+                self.searchResults[i].original_title = self.searchResults[i].original_name;
+                for (let j = 0; j < self.languages.length; j++) {
+                  if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                    self.searchResults[i].original_language = self.languages[j].flag;
+                  }
+                }
+              }
+            });
+          } else {
+            axios.get('https://api.themoviedb.org/3/search/multi', {
+              params:{
+                  api_key: '1824bf509354c7052f4a42663578bec1',
+                  query: self.name,
+                  language: self.lang
+              }
+            }).then(function (response){
+              self.totalPag = response.data.total_pages;
+              for (var i = 0; i < response.data.results.length; i++) {
+                if ( response.data.results[i].media_type == 'movie') {
+                  self.searchResults.push(response.data.results[i]);
+                  self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+                  self.searchResults[i].media_type = 'Movie';
+                  for (let j = 0; j < self.languages.length; j++) {
+                    if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                      self.searchResults[i].original_language = self.languages[j].flag;
+                    }
+                  }
+                } else if ( response.data.results[i].media_type == 'tv'){
+                  self.searchResults.push(response.data.results[i]);
+                  self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+                  self.searchResults[i].media_type = 'Tv Series';
+                  self.searchResults[i].title = self.searchResults[i].name;
+                  self.searchResults[i].original_title = self.searchResults[i].original_name;
+                  for (let j = 0; j < self.languages.length; j++) {
+                    if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                      self.searchResults[i].original_language = self.languages[j].flag;
+                    }
+                  }
+                } else {
+                  self.searchResults.push(response.data.results[i]);
+                  self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].popularity / 2);
+                  self.searchResults[i].media_type = 'Person';
+                  self.searchResults[i].title = self.searchResults[i].name;
+                  self.searchResults[i].original_title = self.searchResults[i].name;
+                  self.searchResults[i].poster_path = self.searchResults[i].profile_path;
+                  }
+                }
+            });
+          }
+        }
+      },
+      changePage: function(pagina) {
+        const self = this;
+        self.searchResults = [];
+        if ( self.typeSearch == 'movie') {
+        axios.get('https://api.themoviedb.org/3/search/movie', {
+          params:{
               api_key: '1824bf509354c7052f4a42663578bec1',
               query: self.name,
-              language: self.lang
+              language: self.lang,
+              page: pagina
+          }
+        }).then(function (response){
+          for (var i = 0; i < response.data.results.length; i++) {
+            self.searchResults.push(response.data.results[i]);
+            self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+            self.searchResults[i].media_type = 'Movie';
+            for (let j = 0; j < self.languages.length; j++) {
+              if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                self.searchResults[i].original_language = self.languages[j].flag;
+              }
             }
-          }).then(function (response){
-            for (var i = 0; i < response.data.results.length; i++) {
-              self.searchTv.push(response.data.results[i]);
-              self.searchTv[i].vote_average = Math.ceil(self.searchTv[i].vote_average / 2);
+          }
+        });
+      } else if ( self.typeSearch == 'tv' ) {
+        axios.get('https://api.themoviedb.org/3/search/tv', {
+          params:{
+              api_key: '1824bf509354c7052f4a42663578bec1',
+              query: self.name,
+              language: self.lang,
+              page: pagina
+          }
+        }).then(function (response){
+          for (var i = 0; i < response.data.results.length; i++) {
+            self.searchResults.push(response.data.results[i]);
+            self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+            self.searchResults[i].media_type = 'Tv Series';
+            self.searchResults[i].title = self.searchResults[i].name;
+            self.searchResults[i].original_title = self.searchResults[i].original_name;
+            for (let j = 0; j < self.languages.length; j++) {
+              if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                self.searchResults[i].original_language = self.languages[j].flag;
+              }
             }
-          });
-        }
+          }
+        });
+      } else {
+        axios.get('https://api.themoviedb.org/3/search/multi', {
+          params:{
+              api_key: '1824bf509354c7052f4a42663578bec1',
+              query: self.name,
+              language: self.lang,
+              page: pagina
+          }
+        }).then(function (response){
+          for (var i = 0; i < response.data.results.length; i++) {
 
+            if ( response.data.results[i].media_type == 'movie') {
+              self.searchResults.push(response.data.results[i]);
+              self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+              self.searchResults[i].media_type = 'Movie';
+              for (let j = 0; j < self.languages.length; j++) {
+                if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                  self.searchResults[i].original_language = self.languages[j].flag;
+                }
+              }
+            } else if ( response.data.results[i].media_type == 'tv'){
+              self.searchResults.push(response.data.results[i]);
+              self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
+              self.searchResults[i].media_type = 'Tv Series';
+              self.searchResults[i].title = self.searchResults[i].name;
+              self.searchResults[i].original_title = self.searchResults[i].original_name;
+              for (let j = 0; j < self.languages.length; j++) {
+                if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
+                  self.searchResults[i].original_language = self.languages[j].flag;
+                }
+              }
+            } else {
+              self.searchResults.push(response.data.results[i]);
+              self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].popularity / 2);
+              self.searchResults[i].media_type = 'Person';
+              self.searchResults[i].title = self.searchResults[i].name;
+              self.searchResults[i].original_title = self.searchResults[i].name;
+              self.searchResults[i].poster_path = self.searchResults[i].profile_path;
+              }
+            }
+        });
+      }
       }
     }
   }
