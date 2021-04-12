@@ -1,12 +1,71 @@
+// FUNZIONI
+function searchMovie(arrayRisultati, arrayChiamata, arrayBandiere) {
+  for (var i = 0; i < arrayChiamata.length; i++) {
+    arrayRisultati.push(arrayChiamata[i]);
+    arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
+    arrayRisultati[i].media_type = 'Movie';
+    for (let j = 0; j < arrayBandiere.length; j++) {
+      if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
+        arrayRisultati[i].original_language = arrayBandiere[j].flag;
+      }
+    }
+  }
+}
+function searchTv(arrayRisultati, arrayChiamata, arrayBandiere){
+  for (var i = 0; i < arrayChiamata.length; i++) {
+    arrayRisultati.push(arrayChiamata[i]);
+    arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
+    arrayRisultati[i].media_type = 'Tv Series';
+    arrayRisultati[i].title = arrayRisultati[i].name;
+    arrayRisultati[i].original_title = arrayRisultati[i].original_name;
+    for (let j = 0; j < arrayBandiere.length; j++) {
+      if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
+        arrayRisultati[i].original_language = arrayBandiere[j].flag;
+      }
+    }
+  }
+}
+function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
+  for (var i = 0; i < arrayChiamata.length; i++) {
+    if ( arrayChiamata[i].media_type == 'movie') {
+      arrayRisultati.push(arrayChiamata[i]);
+      arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
+      arrayRisultati[i].media_type = 'Movie';
+      for (let j = 0; j < arrayBandiere.length; j++) {
+        if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
+          arrayRisultati[i].original_language = arrayBandiere[j].flag;
+        }
+      }
+    } else if ( arrayChiamata[i].media_type == 'tv'){
+      arrayRisultati.push(arrayChiamata[i]);
+      arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
+      arrayRisultati[i].media_type = 'Tv Series';
+      arrayRisultati[i].title = arrayRisultati[i].name;
+      arrayRisultati[i].original_title = arrayRisultati[i].original_name;
+      for (let j = 0; j < arrayBandiere.length; j++) {
+        if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
+          arrayRisultati[i].original_language = arrayBandiere[j].flag;
+        }
+      }
+    } else {
+      arrayRisultati.push(arrayChiamata[i]);
+      arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].popularity / 2);
+      arrayRisultati[i].media_type = 'Person';
+      arrayRisultati[i].title = arrayRisultati[i].name;
+      arrayRisultati[i].original_title = arrayRisultati[i].name;
+      arrayRisultati[i].poster_path = arrayRisultati[i].profile_path;
+      }
+    }
+}
 var app = new Vue(
   {
     el: '#root',
     data:{
-      movieHome:[],
-      name: '',
+      movieHome:[], //arrai schermata iniziale
+      name: '', // valore della ricerca
       urlImg: 'https://image.tmdb.org/t/p/w500',
-      searchResults:[],
-      lang: 'it-IT',
+      searchResults:[], // array dei risultati della ricerca
+      lang: 'it-IT', // valore lingua selezionata
       languages:[
         {
           originalLanguage: 'it',
@@ -36,15 +95,15 @@ var app = new Vue(
           originalLanguage: 'pt',
           flag: 'https://www.33ff.com/flags/S_flags/flags_of_Sweden.gif'
         }
-      ],
-      typeSearch: 'all',
+      ], // array bandiere lingue
+      typeSearch: 'all', // tipo di ricerca selezionata
       titleLang: 'Titolo',
       originalTitleLang: 'Titolo originale',
       nameLang: 'Nome',
       voteLang: 'Voto',
-      totalPag: 1,
-      currentPage: 1,
-      searchShow: false
+      totalPag: 1, // pagine totali dei risultati ottenuti con la ricerca
+      currentPage: 1, // pagina attuale
+      searchShow: false // variabile per mostrare la barra di ricerca
     },
     mounted: function(){
       const self = this;
@@ -76,16 +135,7 @@ var app = new Vue(
               }
             }).then(function (response){
               self.totalPag = response.data.total_pages;
-              for (var i = 0; i < response.data.results.length; i++) {
-                self.searchResults.push(response.data.results[i]);
-                self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-                self.searchResults[i].media_type = 'Movie';
-                for (let j = 0; j < self.languages.length; j++) {
-                  if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                    self.searchResults[i].original_language = self.languages[j].flag;
-                  }
-                }
-              }
+              searchMovie(self.searchResults, response.data.results, self.languages);
             });
           } else if ( self.typeSearch == 'tv' ) {
             axios.get('https://api.themoviedb.org/3/search/tv', {
@@ -96,18 +146,7 @@ var app = new Vue(
               }
             }).then(function (response){
               self.totalPag = response.data.total_pages;
-              for (var i = 0; i < response.data.results.length; i++) {
-                self.searchResults.push(response.data.results[i]);
-                self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-                self.searchResults[i].media_type = 'Tv Series';
-                self.searchResults[i].title = self.searchResults[i].name;
-                self.searchResults[i].original_title = self.searchResults[i].original_name;
-                for (let j = 0; j < self.languages.length; j++) {
-                  if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                    self.searchResults[i].original_language = self.languages[j].flag;
-                  }
-                }
-              }
+              searchTv(self.searchResults, response.data.results, self.languages);
             });
           } else {
             axios.get('https://api.themoviedb.org/3/search/multi', {
@@ -118,36 +157,7 @@ var app = new Vue(
               }
             }).then(function (response){
               self.totalPag = response.data.total_pages;
-              for (var i = 0; i < response.data.results.length; i++) {
-                if ( response.data.results[i].media_type == 'movie') {
-                  self.searchResults.push(response.data.results[i]);
-                  self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-                  self.searchResults[i].media_type = 'Movie';
-                  for (let j = 0; j < self.languages.length; j++) {
-                    if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                      self.searchResults[i].original_language = self.languages[j].flag;
-                    }
-                  }
-                } else if ( response.data.results[i].media_type == 'tv'){
-                  self.searchResults.push(response.data.results[i]);
-                  self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-                  self.searchResults[i].media_type = 'Tv Series';
-                  self.searchResults[i].title = self.searchResults[i].name;
-                  self.searchResults[i].original_title = self.searchResults[i].original_name;
-                  for (let j = 0; j < self.languages.length; j++) {
-                    if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                      self.searchResults[i].original_language = self.languages[j].flag;
-                    }
-                  }
-                } else {
-                  self.searchResults.push(response.data.results[i]);
-                  self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].popularity / 2);
-                  self.searchResults[i].media_type = 'Person';
-                  self.searchResults[i].title = self.searchResults[i].name;
-                  self.searchResults[i].original_title = self.searchResults[i].name;
-                  self.searchResults[i].poster_path = self.searchResults[i].profile_path;
-                  }
-                }
+              searchMulti(self.searchResults, response.data.results, self.languages);
             });
           }
         }
@@ -164,16 +174,7 @@ var app = new Vue(
               page: pagina
           }
         }).then(function (response){
-          for (var i = 0; i < response.data.results.length; i++) {
-            self.searchResults.push(response.data.results[i]);
-            self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-            self.searchResults[i].media_type = 'Movie';
-            for (let j = 0; j < self.languages.length; j++) {
-              if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                self.searchResults[i].original_language = self.languages[j].flag;
-              }
-            }
-          }
+          searchMovie(self.searchResults, response.data.results, self.languages);
         });
       } else if ( self.typeSearch == 'tv' ) {
         axios.get('https://api.themoviedb.org/3/search/tv', {
@@ -184,18 +185,7 @@ var app = new Vue(
               page: pagina
           }
         }).then(function (response){
-          for (var i = 0; i < response.data.results.length; i++) {
-            self.searchResults.push(response.data.results[i]);
-            self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-            self.searchResults[i].media_type = 'Tv Series';
-            self.searchResults[i].title = self.searchResults[i].name;
-            self.searchResults[i].original_title = self.searchResults[i].original_name;
-            for (let j = 0; j < self.languages.length; j++) {
-              if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                self.searchResults[i].original_language = self.languages[j].flag;
-              }
-            }
-          }
+          searchTv(self.searchResults, response.data.results, self.languages);
         });
       } else {
         axios.get('https://api.themoviedb.org/3/search/multi', {
@@ -206,37 +196,7 @@ var app = new Vue(
               page: pagina
           }
         }).then(function (response){
-          for (var i = 0; i < response.data.results.length; i++) {
-
-            if ( response.data.results[i].media_type == 'movie') {
-              self.searchResults.push(response.data.results[i]);
-              self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-              self.searchResults[i].media_type = 'Movie';
-              for (let j = 0; j < self.languages.length; j++) {
-                if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                  self.searchResults[i].original_language = self.languages[j].flag;
-                }
-              }
-            } else if ( response.data.results[i].media_type == 'tv'){
-              self.searchResults.push(response.data.results[i]);
-              self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].vote_average / 2);
-              self.searchResults[i].media_type = 'Tv Series';
-              self.searchResults[i].title = self.searchResults[i].name;
-              self.searchResults[i].original_title = self.searchResults[i].original_name;
-              for (let j = 0; j < self.languages.length; j++) {
-                if ( self.searchResults[i].original_language == self.languages[j].originalLanguage ) {
-                  self.searchResults[i].original_language = self.languages[j].flag;
-                }
-              }
-            } else {
-              self.searchResults.push(response.data.results[i]);
-              self.searchResults[i].vote_average = Math.ceil(self.searchResults[i].popularity / 2);
-              self.searchResults[i].media_type = 'Person';
-              self.searchResults[i].title = self.searchResults[i].name;
-              self.searchResults[i].original_title = self.searchResults[i].name;
-              self.searchResults[i].poster_path = self.searchResults[i].profile_path;
-              }
-            }
+          searchMulti(self.searchResults, response.data.results, self.languages);
         });
       }
       }
