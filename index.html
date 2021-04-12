@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="container" v-else>
-          <ul class="search_pages" v-if="totalPag > 1">
+          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length > 20">
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
           </ul>
           <div v-for="movie in searchResults" class="movie">
@@ -69,7 +69,7 @@
               <p class="overview" v-if="movie.media_type != 'Person'"><span>Overview:</span>{{ movie.overview }}</p>
             </div>
           </div>
-          <ul class="search_pages" v-if="totalPag > 1">
+          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length > 20">
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
           </ul>
         </div>
