@@ -20,22 +20,22 @@
     <div id="root" class="wrapper">
       <header>
         <div class="logo_container">
-          <a href="https://fontmeme.com/netflix-font/"><img src="https://fontmeme.com/permalink/210409/ece45352aef09f28b6d8f4d69a0cdb32.png" alt="netflix-font" border="0" class="logo"></a>
+          <a href="index.html"><img src="https://fontmeme.com/permalink/210409/ece45352aef09f28b6d8f4d69a0cdb32.png" alt="netflix-font" border="0" class="logo"></a>
           <button class="btn" type="button" name="button" @click="lang = 'it-IT', titleLang = 'Titolo', originalTitleLang = 'Titolo originale', nameLang = 'Nome', voteLang = 'Voto'" > <img class="btn_img" :class="lang == 'it-IT' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_Italy.gif" alt=""> </button>
           <button class="btn" type="button" name="button" @click="lang = 'en-US', titleLang = 'Title', originalTitleLang = 'Original Title', nameLang = 'Name', voteLang = 'Vote'"> <img class="btn_img" :class="lang == 'en-US' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_United-Kingdom.gif" alt=""> </button>
         </div>
         <div class="search">
           <i class="fas fa-search search_icon" @click="searchShow = !searchShow"></i>
-          <transition name="fade">
+          <transition name="slide-fade">
             <input class="input_search" placeholder="Cerca film o serie tv"type="text" name="" value="" v-model="name" @keydown.enter="search" v-if="searchShow">
           </transition>
-          <button class="search_btn" type="button" name="button" @click="search">Cerca</button>
-          <input type="radio" id="searchAll"name="" value="all" v-model="typeSearch">
-          <label for="searchAll">All</label>
-          <input type="radio" id="searchMovie"name="" value="movie" v-model="typeSearch">
-          <label for="searchMovie">Movie</label>
-          <input type="radio" id="searchTV"name="" value="tv" v-model="typeSearch">
-          <label for="searchTv">Tv</label>
+          <!-- <button class="search_btn" type="button" name="button" @click="search">Cerca</button> -->
+          <input type="radio" id="searchAll" name="" value="all" v-model="typeSearch">
+          <label for="searchAll" :class="typeSearch == 'all' ? 'active_search' : ''">All</label>
+          <input type="radio" id="searchMovie" name="" value="movie" v-model="typeSearch">
+          <label for="searchMovie" :class="typeSearch == 'movie' ? 'active_search' : ''">Movie</label>
+          <input type="radio" id="searchTv" name="" value="tv" v-model="typeSearch">
+          <label for="searchTv" :class="typeSearch == 'tv' ? 'active_search' : ''">Tv</label>
         </div>
       </header>
       <main @click="searchShow = false">
@@ -72,19 +72,6 @@
           <ul class="search_pages" v-if="totalPag > 1">
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
           </ul>
-          <!-- <div v-for="movie in searchTv" class="movie">
-            <img class="movie_img" :src="urlImg + movie.poster_path" alt="" v-if="movie.poster_path != null">
-            <div class="img_not-found" v-else>
-              <p>Locandina non disponibile</p>
-            </div>
-            <div class="movie_description">
-              <h2 class="movie_title mb-10"><span>Serie tv</span></h2>
-              <h2 class="movie_title mb-10"><span>Titolo:</span> {{ movie.name }}</h2>
-              <h2 class="movie_original_title mb-10"><span>Titolo originale:</span>{{ movie.original_name }}</h2>
-              <p class="vote mb-10"><span>Voto:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
-              <p class="overview"><span>Overview:</span>{{ movie.overview }}</p>
-            </div>
-          </div> -->
         </div>
 
       </main>

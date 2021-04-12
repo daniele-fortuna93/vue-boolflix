@@ -37,7 +37,7 @@ var app = new Vue(
           flag: 'https://www.33ff.com/flags/S_flags/flags_of_Sweden.gif'
         }
       ],
-      typeSearch: 'tv',
+      typeSearch: 'all',
       titleLang: 'Titolo',
       originalTitleLang: 'Titolo originale',
       nameLang: 'Nome',
