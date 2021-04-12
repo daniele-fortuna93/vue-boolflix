@@ -41,22 +41,23 @@
       <main @click="searchShow = false">
         <div class="container" v-if="searchResults.length == 0 && searchShow == false && name == ''">
           <div v-for="movie in movieHome" class="movie">
-            <img class="movie_img" :src="urlImg + movie.poster_path" alt="">
+            <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster">
             <div class="movie_description">
               <h2 class="movie_title mb-10"><span>Film</span></h2>
               <h2 class="movie_title mb-10"><span>Titolo:</span> {{ movie.title }}</h2>
               <h2 class="movie_original_title mb-10"><span>Titolo originale:</span> {{ movie.original_title }}</h2>
+              <img :src="movie.original_language" alt="Flag language" class="flag_language mb-10">
               <p class="vote mb-10"><span>Voto:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
               <p class="overview"><span>Overview:</span> {{ movie.overview }}</p>
             </div>
           </div>
         </div>
         <div class="container" v-else>
-          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length > 20">
+          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length != 0">
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
           </ul>
           <div v-for="movie in searchResults" class="movie">
-            <img class="movie_img" :src="urlImg + movie.poster_path" alt="" v-if="movie.poster_path != null">
+            <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster" v-if="movie.poster_path != null">
             <div class="img_not-found" v-else>
               <p>Locandina non disponibile</p>
             </div>
@@ -64,12 +65,12 @@
               <h2 class="movie_title mb-10"><span>{{ movie.media_type }}</span></h2>
               <h2 class="movie_title mb-10"><span v-if="movie.media_type != 'Person'">{{ titleLang }}:</span> <span v-else>{{ nameLang }}:</span> {{ movie.title }}</h2>
               <h2 class="movie_original_title mb-10" v-if="movie.media_type != 'Person'"><span>{{ originalTitleLang }}:</span>{{ movie.original_title }}</h2>
-              <img :src="movie.original_language" alt="">
+              <img :src="movie.original_language" alt="Flag language" class="flag_language mb-10">
               <p class="vote mb-10"><span>{{ voteLang }}:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
               <p class="overview" v-if="movie.media_type != 'Person'"><span>Overview:</span>{{ movie.overview }}</p>
             </div>
           </div>
-          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length > 20">
+          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length != 0">
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
           </ul>
         </div>

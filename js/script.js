@@ -114,11 +114,7 @@ var app = new Vue(
           language: self.lang
         }
       }).then(function (response){
-        for (var i = 0; i < response.data.results.length; i++) {
-          self.movieHome.push(response.data.results[i]);
-          self.movieHome[i].vote_average = Math.ceil(self.movieHome[i].vote_average / 2);
-          self.movieHome[i].type = 'Film';
-        }
+        searchMovie(self.movieHome, response.data.results, self.languages);
       })
     },
     methods:{

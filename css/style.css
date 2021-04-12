@@ -164,6 +164,9 @@ main{
   opacity: 1;
   cursor: pointer;
 }
+.flag_language{
+  width: 60px;
+}
 .search_pages{
   width: 100%;
   text-align: center;
