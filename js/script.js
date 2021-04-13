@@ -85,8 +85,8 @@ var app = new Vue(
       name: '', // valore della ricerca
       urlImg: 'https://image.tmdb.org/t/p/w500',
       searchResults:[], // array dei risultati della ricerca
-      lang: 'it-IT', // valore lingua selezionata
-      languages:[
+      lang: 'it-IT',  // valore lingua selezionata
+      languages:[     // array bandiere lingue
         {
           originalLanguage: 'it',
           flag: 'img/it.gif'
@@ -111,7 +111,7 @@ var app = new Vue(
           originalLanguage: 'sv',
           flag: 'img/sv.gif'
         }
-      ], // array bandiere lingue
+      ],
       typeSearch: 'all', // tipo di ricerca selezionata
       titleLang: 'Titolo',
       originalTitleLang: 'Titolo originale',
@@ -120,9 +120,9 @@ var app = new Vue(
       totalPag: 1, // pagine totali dei risultati ottenuti con la ricerca
       currentPage: 1, // pagina attuale
       searchShow: false, // variabile per mostrare la barra di ricerca
-      pageShow: 0,
-      n: 1,
-      asideType: 'home'
+      pageShow: 0, // pagina minima mostrata nella lista pagine
+      n: 1,  // variabile passata alla funzione firstPage
+      asideType: 'home' // variabile per assegnare la classe alle voci dell'aside
     },
     mounted: function(){
       const self = this;
@@ -137,7 +137,7 @@ var app = new Vue(
       })
     },
     methods:{
-      search: function() {
+      search: function() { // funzione per la ricerca
         const self = this;
         self.totalPag = 1;
         self.currentPage = 1;
@@ -181,7 +181,7 @@ var app = new Vue(
           }
         }
       },
-      changePage: function(pagina) {
+      changePage: function(pagina) { // funzione per il cambio pagina
         const self = this;
         self.searchResults = [];
         if ( self.typeSearch == 'movie') {
@@ -219,13 +219,13 @@ var app = new Vue(
         });
         }
       },
-      getPage: function(){
+      getPage: function(){ // funzione per mostrare un numero massimo di pagine
         if ( this.currentPage > 10) {
           return this.pageShow = this.currentPage - 10;
         }
         return this.pageShow = 0;
       },
-      firstPage: function(n){
+      firstPage: function(n){ // funzione per andare alla prima pagina
         const self = this;
         self.searchResults = [];
         if ( self.typeSearch == 'movie') {
@@ -263,7 +263,7 @@ var app = new Vue(
         });
         }
       },
-      lastPage: function(ultimaPag){
+      lastPage: function(ultimaPag){ // funzione per andare all'ultima pagina
         const self = this;
         self.searchResults = [];
         if ( self.typeSearch == 'movie') {
@@ -301,7 +301,7 @@ var app = new Vue(
         });
         }
       },
-      searchMovieAside:function(){
+      searchMovieAside:function(){ // funzione per vedere solo i film premendo bottone aside
         const self = this;
         self.totalPag = 1;
         self.searchResults = [];
@@ -318,7 +318,7 @@ var app = new Vue(
           });
         }
       },
-      searchTvAside:function(){
+      searchTvAside:function(){ // funzione per vedere solo le serie tv premendo bottone aside
         const self = this;
         self.totalPag = 1;
         self.searchResults = [];
@@ -335,7 +335,7 @@ var app = new Vue(
           });
         }
       },
-      searchTopMovie: function(){
+      searchTopMovie: function(){ // funzione per vedere i top10 film
         const self = this;
         self.totalPag = 1;
         self.searchResults = [];
@@ -351,7 +351,7 @@ var app = new Vue(
           });
         }
       },
-      searchTopTv: function(){
+      searchTopTv: function(){ // funzione per vedere le top10 serieTv
         const self = this;
         self.totalPag = 1;
         self.searchResults = [];
