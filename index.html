@@ -53,12 +53,13 @@
       <!-- /header -->
       <!-- main -->
       <main @click="searchShow = false">
-        <aside class="aside_menu" v-if="searchResults.length > 0 || searchShow != false">
+        <aside class="aside_menu" v-if="searchResults.length > 0 || listFavorites.length > 0">
           <a class="aside_select" href="index.html" :class="asideType == 'home' ? 'aside_active' : ''">Home</a>
           <button class="aside_select" type="button" name="button" @click="currentPage = 1; pageShow = 1; showFavorites = false; searchMovieAside(); asideType = 'movie'; typeSearch = 'movie'" :class="asideType == 'movie' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
           <button class="aside_select" type="button" name="button" @click="currentPage = 1; pageShow = 1; showFavorites = false; searchTvAside(); asideType = 'tv'; typeSearch = 'tv'" :class="asideType == 'tv' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
           <button class="aside_select" type="button" name="button" @click="currentPage = 1; pageShow = 1; showFavorites = false; searchTopMovie(); asideType = 'topMovie'" :class="asideType == 'topMovie' ? 'aside_active' : ''">Top 10 {{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
           <button class="aside_select" type="button" name="button" @click="currentPage = 1; pageShow = 1; showFavorites = false; searchTopTv(); asideType = 'topTv'" :class="asideType == 'topTv' ? 'aside_active' : ''">Top 10 {{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
+          <button class="aside_select" type="button" name="button" @click="currentPage = 1; pageShow = 1; totalPag = 1; showFavorites = true; asideType = 'favorites'" :class="asideType == 'favorites' ? 'aside_active' : ''"> {{ lang == 'it-IT' ? 'Lista Favoriti' : 'Favorites'}}</button>
         </aside>
         <!-- film home -->
         <div class="container" v-if="searchResults.length == 0 && searchShow == false && name == '' && showFavorites == false">
@@ -104,7 +105,7 @@
           </div>
 
           <!-- lista favoriti -->
-          <div v-for="movie in listFavorites" class="movie" v-if="listFavorites.length != 0">
+          <div v-for="movie in listFavorites" class="movie" v-if="showFavorites == true">
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster" v-if="movie.poster_path != null">
             <div class="img_not-found" v-else>
               <p>Locandina non disponibile</p>
