@@ -46,6 +46,13 @@
       <!-- /header -->
       <!-- main -->
       <main @click="searchShow = false">
+        <aside class="aside_menu" v-if="searchResults.length > 0">
+          <a class="aside_select" href="index.html" :class="asideType == 'home' ? 'aside_active' : ''">Home</a>
+          <button class="aside_select" type="button" name="button" @click="searchMovieAside(); asideType = 'movie'" :class="asideType == 'movie' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
+          <button class="aside_select" type="button" name="button" @click="searchTvAside(); asideType = 'tv'" :class="asideType == 'tv' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
+          <button class="aside_select" type="button" name="button" @click="searchTopMovie(); asideType = 'topMovie'" :class="asideType == 'topMovie' ? 'aside_active' : ''">Top 10 {{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
+          <button class="aside_select" type="button" name="button" @click="searchTopTv(); asideType = 'topTv'" :class="asideType == 'topTv' ? 'aside_active' : ''">Top 10 {{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
+        </aside>
         <!-- film home -->
         <div class="container" v-if="searchResults.length == 0 && searchShow == false && name == ''">
           <div v-for="movie in movieHome" class="movie">

@@ -124,15 +124,48 @@ main{
   min-height: 100vh;
   padding-top: 80px;
 }
+.aside_menu{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 5;
+  height: calc(100vh - 80px);
+  background-color: #000;
+}
+.aside_select{
+  border: none;
+  border-bottom: 1px solid #000;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  text-align: center;
+}
+.aside_active{
+  border-bottom: 1px solid #fff;
+}
+.aside_select:hover{
+  border-bottom: 1px solid #fff;
+}
 .container{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  width: 90%;
+  margin: auto;
 }
 .movie{
   position: relative;
-  width: 350px;
-  height: 500px;
+  width: 250px;
+  height: 400px;
   margin: 20px;
   overflow: hidden;
   border-radius: 12px;

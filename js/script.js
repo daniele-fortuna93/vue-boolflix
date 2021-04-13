@@ -102,13 +102,14 @@ var app = new Vue(
       searchShow: false, // variabile per mostrare la barra di ricerca
       pageShow: 0,
       n: 1,
+      asideType: 'home'
     },
     mounted: function(){
       const self = this;
-      axios.get('https://api.themoviedb.org/3/search/movie', {
+      axios.get('https://api.themoviedb.org/3/movie/popular', {
         params:{
           api_key: '1824bf509354c7052f4a42663578bec1',
-          query: 'ritorno al futuro',
+          page: 1,
           language: self.lang
         }
       }).then(function (response){
@@ -120,6 +121,7 @@ var app = new Vue(
         const self = this;
         self.totalPag = 1;
         self.searchResults = [];
+        self.asideType = '';
         if ( self.name != '') {
           if ( self.typeSearch == 'movie') {
             axios.get('https://api.themoviedb.org/3/search/movie', {
@@ -275,6 +277,72 @@ var app = new Vue(
         }).then(function (response){
           searchMulti(self.searchResults, response.data.results, self.languages);
         });
+        }
+      },
+      searchMovieAside:function(){
+        const self = this;
+        self.totalPag = 1;
+        self.searchResults = [];
+        if ( self.name != '') {
+          axios.get('https://api.themoviedb.org/3/search/movie', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang
+            }
+          }).then(function (response){
+            self.totalPag = response.data.total_pages;
+            searchMovie(self.searchResults, response.data.results, self.languages);
+          });
+        }
+      },
+      searchTvAside:function(){
+        const self = this;
+        self.totalPag = 1;
+        self.searchResults = [];
+        if ( self.name != '') {
+          axios.get('https://api.themoviedb.org/3/search/tv', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang
+            }
+          }).then(function (response){
+            self.totalPag = response.data.total_pages;
+            searchTv(self.searchResults, response.data.results, self.languages);
+          });
+        }
+      },
+      searchTopMovie: function(){
+        const self = this;
+        self.totalPag = 1;
+        self.searchResults = [];
+        if ( self.name != '') {
+          axios.get('https://api.themoviedb.org/3/movie/popular', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                language: self.lang
+            }
+          }).then(function (response){
+            searchMovie(self.searchResults, response.data.results, self.languages);
+            self.searchResults = self.searchResults.splice(9,10);
+          });
+        }
+      },
+      searchTopTv: function(){
+        const self = this;
+        self.totalPag = 1;
+        self.searchResults = [];
+        if ( self.name != '') {
+          axios.get('https://api.themoviedb.org/3/tv/popular', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                language: self.lang
+            }
+          }).then(function (response){
+            searchTv(self.searchResults, response.data.results, self.languages);
+            self.searchResults = self.searchResults.splice(9,10);
+          });
         }
       }
     }
