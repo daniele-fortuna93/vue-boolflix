@@ -1,18 +1,24 @@
 // FUNZIONI
 function searchMovie(arrayRisultati, arrayChiamata, arrayBandiere) {
   for (var i = 0; i < arrayChiamata.length; i++) {
+    let allFlag = false;
     arrayRisultati.push(arrayChiamata[i]);
     arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
     arrayRisultati[i].media_type = 'Movie';
     for (let j = 0; j < arrayBandiere.length; j++) {
       if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
         arrayRisultati[i].original_language = arrayBandiere[j].flag;
+        allFlag = true;
       }
+    }
+    if ( allFlag == false) {
+      arrayRisultati[i].original_language = 'img/all.jpeg';
     }
   }
 }
 function searchTv(arrayRisultati, arrayChiamata, arrayBandiere){
   for (var i = 0; i < arrayChiamata.length; i++) {
+    let allFlag = false;
     arrayRisultati.push(arrayChiamata[i]);
     arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
     arrayRisultati[i].media_type = 'Tv Series';
@@ -21,12 +27,18 @@ function searchTv(arrayRisultati, arrayChiamata, arrayBandiere){
     for (let j = 0; j < arrayBandiere.length; j++) {
       if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
         arrayRisultati[i].original_language = arrayBandiere[j].flag;
+        allFlag = true;
       }
+    }
+    if ( allFlag == false) {
+      arrayRisultati[i].original_language = 'img/all.jpeg';
     }
   }
 }
 function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
+
   for (var i = 0; i < arrayChiamata.length; i++) {
+    let allFlag = false;
     if ( arrayChiamata[i].media_type == 'movie') {
       arrayRisultati.push(arrayChiamata[i]);
       arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
@@ -34,6 +46,10 @@ function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
       for (let j = 0; j < arrayBandiere.length; j++) {
         if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
           arrayRisultati[i].original_language = arrayBandiere[j].flag;
+          allFlag = true;
+        }
+        if ( allFlag == false) {
+          arrayRisultati[i].original_language = 'img/all.jpeg';
         }
       }
     } else if ( arrayChiamata[i].media_type == 'tv'){
@@ -45,6 +61,10 @@ function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
       for (let j = 0; j < arrayBandiere.length; j++) {
         if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
           arrayRisultati[i].original_language = arrayBandiere[j].flag;
+          allFlag = true;
+        }
+        if ( allFlag == false) {
+          arrayRisultati[i].original_language = 'img/all.jpeg';
         }
       }
     } else if ( arrayChiamata[i].media_type == 'person' ){
@@ -120,6 +140,8 @@ var app = new Vue(
       search: function() {
         const self = this;
         self.totalPag = 1;
+        self.currentPage = 1;
+        self.pageShow = 0;
         self.searchResults = [];
         self.asideType = '';
         if ( self.name != '') {
