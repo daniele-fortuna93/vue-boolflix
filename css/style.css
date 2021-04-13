@@ -124,7 +124,9 @@ main{
   min-height: 100vh;
   padding-top: 80px;
 }
+/* aside */
 .aside_menu{
+  width: 200px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -155,6 +157,7 @@ main{
 .aside_select:hover{
   border-bottom: 1px solid #fff;
 }
+/* /aside */
 .container{
   display: flex;
   flex-wrap: wrap;
@@ -162,6 +165,7 @@ main{
   width: 90%;
   margin: auto;
 }
+/* Card movie */
 .movie{
   position: relative;
   width: 250px;
@@ -201,6 +205,8 @@ main{
   width: 60px;
   height: 40px;
 }
+/* /Card movie */
+/* page list */
 .search_pages{
   width: 100%;
   text-align: center;
@@ -228,7 +234,9 @@ main{
 .icon_reverse{
   transform: rotate(180deg);
 }
+/* /page list */
 /* /main */
+
 /* responsive */
 @media screen and (max-width: 800px) {
   .logo{

@@ -37,9 +37,9 @@
           <input type="radio" id="searchAll" name="" value="all" v-model="typeSearch">
           <label for="searchAll" :class="typeSearch == 'all' ? 'active_search' : ''">All</label>
           <input type="radio" id="searchMovie" name="" value="movie" v-model="typeSearch">
-          <label for="searchMovie" :class="typeSearch == 'movie' ? 'active_search' : ''">Movie</label>
+          <label for="searchMovie" :class="typeSearch == 'movie' ? 'active_search' : ''">{{ lang == 'it-IT' ? 'Film' : 'Movie'}}</label>
           <input type="radio" id="searchTv" name="" value="tv" v-model="typeSearch">
-          <label for="searchTv" :class="typeSearch == 'tv' ? 'active_search' : ''">Tv</label>
+          <label for="searchTv" :class="typeSearch == 'tv' ? 'active_search' : ''">{{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</label>
         </div>
         <!-- /campo ricerca -->
       </header>
