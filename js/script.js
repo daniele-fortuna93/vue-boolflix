@@ -47,7 +47,7 @@ function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
           arrayRisultati[i].original_language = arrayBandiere[j].flag;
         }
       }
-    } else {
+    } else if ( arrayChiamata[i].media_type == 'person' ){
       arrayRisultati.push(arrayChiamata[i]);
       arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].popularity / 2);
       arrayRisultati[i].media_type = 'Person';
@@ -69,31 +69,27 @@ var app = new Vue(
       languages:[
         {
           originalLanguage: 'it',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_Italy.gif'
+          flag: 'img/it.gif'
         },
         {
           originalLanguage: 'en',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_United-Kingdom.gif'
+          flag: 'img/en.gif'
         },
         {
           originalLanguage: 'fr',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_France.gif'
+          flag: 'img/fr.gif'
         },
         {
           originalLanguage: 'es',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_Spain.gif'
+          flag: 'img/es.gif'
         },
         {
           originalLanguage: 'de',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_Germany.gif'
+          flag: 'img/de.gif'
         },
         {
           originalLanguage: 'sv',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_Sweden.gif'
-        },
-        {
-          originalLanguage: 'pt',
-          flag: 'https://www.33ff.com/flags/S_flags/flags_of_Sweden.gif'
+          flag: 'img/sv.gif'
         }
       ], // array bandiere lingue
       typeSearch: 'all', // tipo di ricerca selezionata
