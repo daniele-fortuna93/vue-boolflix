@@ -197,6 +197,13 @@ main{
   color: #fff;
   overflow-y: auto;
 }
+.movie_description a{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .movie:hover .movie_description{
   opacity: 1;
   cursor: pointer;

@@ -4,7 +4,7 @@ function searchMovie(arrayRisultati, arrayChiamata, arrayBandiere) {
     let allFlag = false;
     arrayRisultati.push(arrayChiamata[i]);
     arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
-    arrayRisultati[i].media_type = 'Movie';
+    arrayRisultati[i].media_type = 'movie';
     for (let j = 0; j < arrayBandiere.length; j++) {
       if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
         arrayRisultati[i].original_language = arrayBandiere[j].flag;
@@ -21,7 +21,7 @@ function searchTv(arrayRisultati, arrayChiamata, arrayBandiere){
     let allFlag = false;
     arrayRisultati.push(arrayChiamata[i]);
     arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
-    arrayRisultati[i].media_type = 'Tv Series';
+    arrayRisultati[i].media_type = 'tv';
     arrayRisultati[i].title = arrayRisultati[i].name;
     arrayRisultati[i].original_title = arrayRisultati[i].original_name;
     for (let j = 0; j < arrayBandiere.length; j++) {
@@ -42,7 +42,7 @@ function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
     if ( arrayChiamata[i].media_type == 'movie') {
       arrayRisultati.push(arrayChiamata[i]);
       arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
-      arrayRisultati[i].media_type = 'Movie';
+      // arrayRisultati[i].media_type = 'Movie';
       for (let j = 0; j < arrayBandiere.length; j++) {
         if ( arrayRisultati[i].original_language == arrayBandiere[j].originalLanguage ) {
           arrayRisultati[i].original_language = arrayBandiere[j].flag;
@@ -55,7 +55,7 @@ function searchMulti(arrayRisultati, arrayChiamata, arrayBandiere) {
     } else if ( arrayChiamata[i].media_type == 'tv'){
       arrayRisultati.push(arrayChiamata[i]);
       arrayRisultati[i].vote_average = Math.ceil(arrayRisultati[i].vote_average / 2);
-      arrayRisultati[i].media_type = 'Tv Series';
+      // arrayRisultati[i].media_type = 'Tv Series';
       arrayRisultati[i].title = arrayRisultati[i].name;
       arrayRisultati[i].original_title = arrayRisultati[i].original_name;
       for (let j = 0; j < arrayBandiere.length; j++) {
@@ -122,7 +122,7 @@ var app = new Vue(
       searchShow: false, // variabile per mostrare la barra di ricerca
       pageShow: 0, // pagina minima mostrata nella lista pagine
       n: 1,  // variabile passata alla funzione firstPage
-      asideType: 'home' // variabile per assegnare la classe alle voci dell'aside
+      asideType: 'home', // variabile per assegnare la classe alle voci dell'aside
     },
     mounted: function(){
       const self = this;
