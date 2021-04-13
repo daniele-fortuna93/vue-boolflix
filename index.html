@@ -18,12 +18,16 @@
   </head>
   <body>
     <div id="root" class="wrapper">
+      <!-- header -->
       <header>
         <div class="logo_container">
           <a href="index.html"><img src="https://fontmeme.com/permalink/210409/ece45352aef09f28b6d8f4d69a0cdb32.png" alt="netflix-font" border="0" class="logo"></a>
+          <!-- scelta lingua -->
           <button class="btn" type="button" name="button" @click="lang = 'it-IT', titleLang = 'Titolo', originalTitleLang = 'Titolo originale', nameLang = 'Nome', voteLang = 'Voto'" > <img class="btn_img" :class="lang == 'it-IT' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_Italy.gif" alt=""> </button>
           <button class="btn" type="button" name="button" @click="lang = 'en-US', titleLang = 'Title', originalTitleLang = 'Original Title', nameLang = 'Name', voteLang = 'Vote'"> <img class="btn_img" :class="lang == 'en-US' ? 'active': ''" src="https://www.33ff.com/flags/S_flags/flags_of_United-Kingdom.gif" alt=""> </button>
+          <!-- /scelta lingua -->
         </div>
+        <!-- campo ricerca -->
         <div class="search">
           <i class="fas fa-search search_icon" @click="searchShow = !searchShow"></i>
           <transition name="slide-fade">
@@ -37,8 +41,12 @@
           <input type="radio" id="searchTv" name="" value="tv" v-model="typeSearch">
           <label for="searchTv" :class="typeSearch == 'tv' ? 'active_search' : ''">Tv</label>
         </div>
+        <!-- /campo ricerca -->
       </header>
+      <!-- /header -->
+      <!-- main -->
       <main @click="searchShow = false">
+        <!-- film home -->
         <div class="container" v-if="searchResults.length == 0 && searchShow == false && name == ''">
           <div v-for="movie in movieHome" class="movie">
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster">
@@ -52,12 +60,16 @@
             </div>
           </div>
         </div>
+        <!-- /film home -->
+        <!-- risultati ricerca -->
         <div class="container" v-else>
+          <!-- numero pagine -->
           <ul class="search_pages" v-if="totalPag > 1">
             <li class="search_page" v-if="currentPage > 10" @click="firstPage(n); currentPage = n; getPage()"><i class="fas fa-step-forward icon_reverse"></i></li>
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page; getPage()" :class="[(currentPage == page ? 'active_page' : ''), (page > (currentPage + 10) ? 'page_display_none' : ''), page < pageShow ? 'page_display_none' : '']">{{ page }}</li>
             <li class="search_page" v-if="totalPag > 10 && (totalPag - currentPage > 10)" @click="lastPage(totalPag); currentPage = totalPag; getPage()"><i class="fas fa-step-forward"></i></li>
           </ul>
+          <!-- /numero pagine -->
           <div v-for="movie in searchResults" class="movie">
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster" v-if="movie.poster_path != null">
             <div class="img_not-found" v-else>
@@ -72,12 +84,17 @@
               <p class="overview" v-if="movie.media_type != 'Person'"><span>Overview:</span>{{ movie.overview }}</p>
             </div>
           </div>
+          <!-- numero pagine -->
           <ul class="search_pages" v-if="totalPag > 1">
+            <li class="search_page" v-if="currentPage > 10" @click="firstPage(n); currentPage = n; getPage()"><i class="fas fa-step-forward icon_reverse"></i></li>
             <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page; getPage()" :class="[(currentPage == page ? 'active_page' : ''), (page > (currentPage + 10) ? 'page_display_none' : ''), page < pageShow ? 'page_display_none' : '']">{{ page }}</li>
+            <li class="search_page" v-if="totalPag > 10 && (totalPag - currentPage > 10)" @click="lastPage(totalPag); currentPage = totalPag; getPage()"><i class="fas fa-step-forward"></i></li>
           </ul>
+          <!-- /numero pagine -->
         </div>
-
+        <!-- /risultati ricerca -->
       </main>
+      <!-- /main -->
     </div>
     <script src="js/script.js" charset="utf-8"></script>
   </body>
