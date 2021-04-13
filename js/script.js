@@ -85,6 +85,7 @@ var app = new Vue(
       name: '', // valore della ricerca
       urlImg: 'https://image.tmdb.org/t/p/w500',
       searchResults:[], // array dei risultati della ricerca
+      listFavorites: [],
       lang: 'it-IT',  // valore lingua selezionata
       languages:[     // array bandiere lingue
         {
@@ -123,6 +124,7 @@ var app = new Vue(
       pageShow: 0, // pagina minima mostrata nella lista pagine
       n: 1,  // variabile passata alla funzione firstPage
       asideType: 'home', // variabile per assegnare la classe alle voci dell'aside
+      showFavorites: false
     },
     mounted: function(){
       const self = this;
@@ -139,6 +141,7 @@ var app = new Vue(
     methods:{
       search: function() { // funzione per la ricerca
         const self = this;
+        self.showFavorites = false;
         self.totalPag = 1;
         self.currentPage = 1;
         self.pageShow = 0;
@@ -365,6 +368,14 @@ var app = new Vue(
             searchTv(self.searchResults, response.data.results, self.languages);
             self.searchResults = self.searchResults.splice(9,10);
           });
+        }
+      },
+      addFavorites: function(movie){
+        const self = this;
+        if ( self.listFavorites.length < 10 ){
+          if (!self.listFavorites.includes(movie)){
+            self.listFavorites.push(movie);
+          }
         }
       }
     }
