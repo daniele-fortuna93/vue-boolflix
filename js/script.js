@@ -377,6 +377,10 @@ var app = new Vue(
             self.listFavorites.push(movie);
           }
         }
+      },
+      removeFavorites: function(movie,index){
+        const self = this;
+        self.listFavorites.splice(index,1);
       }
     }
   }
