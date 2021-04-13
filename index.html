@@ -48,8 +48,8 @@
       <main @click="searchShow = false">
         <aside class="aside_menu" v-if="searchResults.length > 0">
           <a class="aside_select" href="index.html" :class="asideType == 'home' ? 'aside_active' : ''">Home</a>
-          <button class="aside_select" type="button" name="button" @click="searchMovieAside(); asideType = 'movie'" :class="asideType == 'movie' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
-          <button class="aside_select" type="button" name="button" @click="searchTvAside(); asideType = 'tv'" :class="asideType == 'tv' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
+          <button class="aside_select" type="button" name="button" @click="searchMovieAside(); asideType = 'movie'; typeSearch = 'movie'" :class="asideType == 'movie' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
+          <button class="aside_select" type="button" name="button" @click="searchTvAside(); asideType = 'tv'; typeSearch = 'tv'" :class="asideType == 'tv' ? 'aside_active' : ''">{{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
           <button class="aside_select" type="button" name="button" @click="searchTopMovie(); asideType = 'topMovie'" :class="asideType == 'topMovie' ? 'aside_active' : ''">Top 10 {{ lang == 'it-IT' ? 'Film' : 'Movies'}}</button>
           <button class="aside_select" type="button" name="button" @click="searchTopTv(); asideType = 'topTv'" :class="asideType == 'topTv' ? 'aside_active' : ''">Top 10 {{ lang == 'it-IT' ? 'Serie Tv' : 'Tv Series'}}</button>
         </aside>
@@ -59,11 +59,11 @@
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster">
             <div class="movie_description">
               <h2 class="movie_title mb-10"><span>Film</span></h2>
-              <h2 class="movie_title mb-10"><span>Titolo:</span> {{ movie.title }}</h2>
-              <h2 class="movie_original_title mb-10"><span>Titolo originale:</span> {{ movie.original_title }}</h2>
+              <h2 class="movie_title mb-10"><span>Titolo: </span> {{ movie.title }}</h2>
+              <h2 class="movie_original_title mb-10"><span>Titolo originale: </span> {{ movie.original_title }}</h2>
               <img :src="movie.original_language" class="flag_language mb-10">
-              <p class="vote mb-10"><span>Voto:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
-              <p class="overview"><span>Overview:</span> {{ movie.overview }}</p>
+              <p class="vote mb-10"><span>Voto: </span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
+              <p class="overview"><span>{{ lang == 'it-IT' ? 'Anteprima: ' : 'Overview: '}}</span> {{ movie.overview }}</p>
             </div>
           </div>
         </div>
@@ -84,11 +84,11 @@
             </div>
             <div class="movie_description">
               <h2 class="movie_title mb-10"><span>{{ movie.media_type }}</span></h2>
-              <h2 class="movie_title mb-10"><span v-if="movie.media_type != 'Person'">{{ titleLang }}:</span> <span v-else>{{ nameLang }}:</span> {{ movie.title }}</h2>
-              <h2 class="movie_original_title mb-10" v-if="movie.media_type != 'Person'"><span>{{ originalTitleLang }}:</span>{{ movie.original_title }}</h2>
+              <h2 class="movie_title mb-10"><span v-if="movie.media_type != 'Person'">{{ titleLang }}: </span> <span v-else>{{ nameLang }}: </span> {{ movie.title }}</h2>
+              <h2 class="movie_original_title mb-10" v-if="movie.media_type != 'Person'"><span>{{ originalTitleLang }}: </span>{{ movie.original_title }}</h2>
               <img :src="movie.original_language" class="flag_language mb-10">
-              <p class="vote mb-10"><span>{{ voteLang }}:</span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
-              <p class="overview" v-if="movie.media_type != 'Person'"><span>Overview:</span>{{ movie.overview }}</p>
+              <p class="vote mb-10"><span>{{ voteLang }}: </span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
+              <p class="overview" v-if="movie.media_type != 'Person'"><span>{{ lang == 'it-IT' ? 'Anteprima: ' : 'Overview: '}}</span>{{ movie.overview }}</p>
             </div>
           </div>
           <!-- numero pagine -->
