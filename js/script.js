@@ -103,7 +103,9 @@ var app = new Vue(
       voteLang: 'Voto',
       totalPag: 1, // pagine totali dei risultati ottenuti con la ricerca
       currentPage: 1, // pagina attuale
-      searchShow: false // variabile per mostrare la barra di ricerca
+      searchShow: false, // variabile per mostrare la barra di ricerca
+      pageShow: 0,
+      n: 1,
     },
     mounted: function(){
       const self = this;
@@ -120,6 +122,7 @@ var app = new Vue(
     methods:{
       search: function() {
         const self = this;
+        self.totalPag = 1;
         self.searchResults = [];
         if ( self.name != '') {
           if ( self.typeSearch == 'movie') {
@@ -172,29 +175,111 @@ var app = new Vue(
         }).then(function (response){
           searchMovie(self.searchResults, response.data.results, self.languages);
         });
-      } else if ( self.typeSearch == 'tv' ) {
-        axios.get('https://api.themoviedb.org/3/search/tv', {
-          params:{
-              api_key: '1824bf509354c7052f4a42663578bec1',
-              query: self.name,
-              language: self.lang,
-              page: pagina
-          }
+        } else if ( self.typeSearch == 'tv' ) {
+          axios.get('https://api.themoviedb.org/3/search/tv', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang,
+                page: pagina
+            }
         }).then(function (response){
           searchTv(self.searchResults, response.data.results, self.languages);
         });
-      } else {
-        axios.get('https://api.themoviedb.org/3/search/multi', {
+        } else {
+          axios.get('https://api.themoviedb.org/3/search/multi', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang,
+                page: pagina
+            }
+        }).then(function (response){
+          searchMulti(self.searchResults, response.data.results, self.languages);
+        });
+        }
+      },
+      getPage: function(){
+        if ( this.currentPage > 10) {
+          return this.pageShow = this.currentPage - 10;
+        }
+        return this.pageShow = 0;
+      },
+      firstPage: function(n){
+        const self = this;
+        self.searchResults = [];
+        if ( self.typeSearch == 'movie') {
+        axios.get('https://api.themoviedb.org/3/search/movie', {
           params:{
               api_key: '1824bf509354c7052f4a42663578bec1',
               query: self.name,
               language: self.lang,
-              page: pagina
+              page: n
           }
+        }).then(function (response){
+          searchMovie(self.searchResults, response.data.results, self.languages);
+        });
+        } else if ( self.typeSearch == 'tv' ) {
+          axios.get('https://api.themoviedb.org/3/search/tv', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang,
+                page: n
+            }
+        }).then(function (response){
+          searchTv(self.searchResults, response.data.results, self.languages);
+        });
+        } else {
+          axios.get('https://api.themoviedb.org/3/search/multi', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang,
+                page: n
+            }
         }).then(function (response){
           searchMulti(self.searchResults, response.data.results, self.languages);
         });
-      }
+        }
+      },
+      lastPage: function(ultimaPag){
+        const self = this;
+        self.searchResults = [];
+        if ( self.typeSearch == 'movie') {
+        axios.get('https://api.themoviedb.org/3/search/movie', {
+          params:{
+              api_key: '1824bf509354c7052f4a42663578bec1',
+              query: self.name,
+              language: self.lang,
+              page: ultimaPag
+          }
+        }).then(function (response){
+          searchMovie(self.searchResults, response.data.results, self.languages);
+        });
+        } else if ( self.typeSearch == 'tv' ) {
+          axios.get('https://api.themoviedb.org/3/search/tv', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang,
+                page: ultimaPag
+            }
+        }).then(function (response){
+          searchTv(self.searchResults, response.data.results, self.languages);
+        });
+        } else {
+          axios.get('https://api.themoviedb.org/3/search/multi', {
+            params:{
+                api_key: '1824bf509354c7052f4a42663578bec1',
+                query: self.name,
+                language: self.lang,
+                page: ultimaPag
+            }
+        }).then(function (response){
+          searchMulti(self.searchResults, response.data.results, self.languages);
+        });
+        }
       }
     }
   }

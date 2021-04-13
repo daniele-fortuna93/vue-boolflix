@@ -27,7 +27,7 @@
         <div class="search">
           <i class="fas fa-search search_icon" @click="searchShow = !searchShow"></i>
           <transition name="slide-fade">
-            <input class="input_search" placeholder="Cerca film o serie tv"type="text" name="" value="" v-model="name" @keydown.enter="search" v-if="searchShow">
+            <input class="input_search" placeholder="Cerca film o serie tv" type="text" name="" value="" v-model="name" @keydown.enter="search" v-if="searchShow">
           </transition>
           <!-- <button class="search_btn" type="button" name="button" @click="search">Cerca</button> -->
           <input type="radio" id="searchAll" name="" value="all" v-model="typeSearch">
@@ -53,8 +53,10 @@
           </div>
         </div>
         <div class="container" v-else>
-          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length != 0">
-            <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
+          <ul class="search_pages" v-if="totalPag > 1">
+            <li class="search_page" v-if="currentPage > 10" @click="firstPage(n); currentPage = n; getPage()"><i class="fas fa-step-forward icon_reverse"></i></li>
+            <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page; getPage()" :class="[(currentPage == page ? 'active_page' : ''), (page > (currentPage + 10) ? 'page_display_none' : ''), page < pageShow ? 'page_display_none' : '']">{{ page }}</li>
+            <li class="search_page" v-if="totalPag > 10 && (totalPag - currentPage > 10)" @click="lastPage(totalPag); currentPage = totalPag; getPage()"><i class="fas fa-step-forward"></i></li>
           </ul>
           <div v-for="movie in searchResults" class="movie">
             <img class="movie_img" :src="urlImg + movie.poster_path" alt="poster" v-if="movie.poster_path != null">
@@ -70,8 +72,8 @@
               <p class="overview" v-if="movie.media_type != 'Person'"><span>Overview:</span>{{ movie.overview }}</p>
             </div>
           </div>
-          <ul class="search_pages" v-if="totalPag > 1 && searchResults.length != 0">
-            <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page" :class="currentPage == page ? 'active_page' : ''">{{ page }}</li>
+          <ul class="search_pages" v-if="totalPag > 1">
+            <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page; getPage()" :class="[(currentPage == page ? 'active_page' : ''), (page > (currentPage + 10) ? 'page_display_none' : ''), page < pageShow ? 'page_display_none' : '']">{{ page }}</li>
           </ul>
         </div>
 
