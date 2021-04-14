@@ -149,7 +149,6 @@ var app = new Vue(
           self.listGenres.push(response.data.genres[i]);
         }
       });
-
     },
     methods:{
       search: function() { // funzione per la ricerca
@@ -379,7 +378,7 @@ var app = new Vue(
             }
           }).then(function (response){
             searchTv(self.searchResults, response.data.results, self.languages);
-            self.searchResults = self.searchResults.splice(9,10);
+            self.searchResults = self.searchResults.splice(0,10);
           });
         }
       },

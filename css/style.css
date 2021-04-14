@@ -146,6 +146,7 @@ header{
   left: -20px;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 30px 15px;
+  border-radius: 10px;
 }
 .avatar_dropdown-menu a{
   display: block;
