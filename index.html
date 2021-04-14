@@ -79,7 +79,7 @@
         </div>
         <!-- /film home -->
         <!-- risultati ricerca -->
-        <div class="container" v-else>
+        <div class="container container_left" v-else>
           <!-- numero pagine -->
           <ul class="search_pages" v-if="totalPag > 1">
             <li class="search_page" v-if="currentPage > 10" @click="firstPage(n); currentPage = n; getPage()"><i class="fas fa-step-forward icon_reverse"></i></li>

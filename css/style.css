@@ -200,6 +200,10 @@ main{
   width: 90%;
   margin: auto;
 }
+.container.container_left{
+  margin: 0 0 0 auto;
+  width: 85%;
+}
 /* Card movie */
 .movie{
   position: relative;
@@ -279,9 +283,6 @@ main{
 .page_display_none{
   display: none;
 }
-.last_page{
-  margin-left: 15px;
-}
 .icon_reverse{
   transform: rotate(180deg);
 }
@@ -289,6 +290,24 @@ main{
 /* /main */
 
 /* responsive */
+@media screen and (max-width: 1500px) {
+  .aside_menu{
+    width: 150px;
+    padding: 5px;
+  }
+  .aside_select{
+    font-size: 18px;
+    padding: 10px;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .search_page{
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 14px;
+  }
+}
 @media screen and (max-width: 800px) {
   .logo{
     width: 130px;
