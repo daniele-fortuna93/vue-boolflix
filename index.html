@@ -43,6 +43,7 @@
           <div class="avatar_box">
             <img class="img_avatar" src="img/avatar.png" alt="">
             <div class="avatar_dropdown-menu">
+              <a href="index.html" >Home</a>
               <a @click="showFavorites = true; totalPag = 1">{{ lang == 'it-IT' ? 'Lista Preferiti' : 'Favorites'}}</a>
             </div>
             <i class="fas fa-caret-down avatar_arrow"></i>
@@ -94,13 +95,13 @@
             </div>
             <div class="movie_description" >
               <a :href="'https://www.themoviedb.org/' + movie.media_type + '/' + movie.id" target="_blank"></a>
-              <h2 class="movie_title mb-10"><span v-if="lang == 'en-US'">{{ movie.media_type == 'movie' ? 'Movie' : 'Tv Series' }}</span><span>{{ movie.media_type == 'movie' ? 'Film' : 'Serie Tv' }}</span></h2>
+              <h2 class="movie_title mb-10"><span v-if="lang == 'en-US'">{{ movie.media_type == 'movie' ? 'Movie' : 'Tv Series' }}</span><span v-else>{{ movie.media_type == 'movie' ? 'Film' : 'Serie Tv' }}</span></h2>
               <h2 class="movie_title mb-10"><span v-if="movie.media_type != 'Person'">{{ titleLang }}: </span> <span v-else>{{ nameLang }}: </span> {{ movie.title }}</h2>
               <h2 class="movie_original_title mb-10" v-if="movie.media_type != 'Person'"><span>{{ originalTitleLang }}: </span>{{ movie.original_title }}</h2>
               <img :src="movie.original_language" class="flag_language mb-10">
               <p class="vote mb-10"><span>{{ voteLang }}: </span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
               <p class="overview" v-if="movie.media_type != 'Person'"><span>{{ lang == 'it-IT' ? 'Anteprima: ' : 'Overview: '}}</span>{{ movie.overview }}</p>
-              <span v-if="movie.media_type == 'movie'" class="add_favorites" @click="addFavorites(movie)">+</span>
+              <span v-if="movie.media_type == 'movie' || movie.media_type == 'tv'" class="add_favorites" @click="addFavorites(movie)">+</span>
             </div>
           </div>
 
@@ -112,13 +113,13 @@
             </div>
             <div class="movie_description" >
               <a :href="'https://www.themoviedb.org/' + movie.media_type + '/' + movie.id" target="_blank"></a>
-              <h2 class="movie_title mb-10"><span>{{index}}{{lang == 'en-US' ? 'Movie' : 'Film'}}</span></h2>
+              <h2 class="movie_title mb-10"><span v-if="lang == 'en-US'">{{ movie.media_type == 'movie' ? 'Movie' : 'Tv Series' }}</span><span v-else>{{ movie.media_type == 'movie' ? 'Film' : 'Serie Tv' }}</span></h2>
               <h2 class="movie_title mb-10"><span>{{ titleLang }}: </span> {{ movie.title }}</h2>
               <h2 class="movie_original_title mb-10"><span>{{ originalTitleLang }}: </span>{{ movie.original_title }}</h2>
               <img :src="movie.original_language" class="flag_language mb-10">
               <p class="vote mb-10"><span>{{ voteLang }}: </span><i class="fas fa-star" v-for="star in movie.vote_average"></i><i class="far fa-star" v-for="star in ( 5 - movie.vote_average)"></i></p>
               <p class="overview"><span>{{ lang == 'it-IT' ? 'Anteprima: ' : 'Overview: '}}</span>{{ movie.overview }}</p>
-              <span v-if="movie.media_type == 'movie'" class="add_favorites" @click="removeFavorites(movie,index)">-</span>
+              <span class="add_favorites" @click="removeFavorites(movie,index)">-</span>
             </div>
           </div>
           <!-- numero pagine -->

@@ -148,6 +148,8 @@ header{
   padding: 30px 15px;
 }
 .avatar_dropdown-menu a{
+  display: block;
+  margin-bottom: 10px;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   cursor: pointer;
