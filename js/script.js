@@ -86,6 +86,7 @@ var app = new Vue(
       urlImg: 'https://image.tmdb.org/t/p/w500',
       searchResults:[], // array dei risultati della ricerca
       listFavorites: [],
+      searchResultsGenre:[],
       lang: 'it-IT',  // valore lingua selezionata
       languages:[     // array bandiere lingue
         {
@@ -113,6 +114,7 @@ var app = new Vue(
           flag: 'img/sv.gif'
         }
       ],
+      listGenres:[],
       typeSearch: 'all', // tipo di ricerca selezionata
       titleLang: 'Titolo',
       originalTitleLang: 'Titolo originale',
@@ -136,7 +138,18 @@ var app = new Vue(
         }
       }).then(function (response){
         searchMovie(self.movieHome, response.data.results, self.languages);
-      })
+      });
+      axios.get('https://api.themoviedb.org/3/genre/movie/list', {
+        params:{
+          api_key: '1824bf509354c7052f4a42663578bec1',
+          language: 'es-US'
+        }
+      }).then(function (response){
+        for (var i = 0; i < response.data.genres.length; i++) {
+          self.listGenres.push(response.data.genres[i]);
+        }
+      });
+
     },
     methods:{
       search: function() { // funzione per la ricerca
@@ -370,7 +383,7 @@ var app = new Vue(
           });
         }
       },
-      addFavorites: function(movie){
+      addFavorites: function(movie){ // funzione per aggiungere titoli ai favoriti
         const self = this;
         if ( self.listFavorites.length < 10 ){
           if (!self.listFavorites.includes(movie)){
@@ -378,10 +391,32 @@ var app = new Vue(
           }
         }
       },
-      removeFavorites: function(movie,index){
+      removeFavorites: function(movie,index){ // funzione per rimuovere titoli dai favoriti
         const self = this;
         self.listFavorites.splice(index,1);
-      }
+      },
+      showGenre: function(genereCliccato){ // funzione beta( solo per i film) per mostrare titoli per genere
+          const self = this;
+          self.searchResults = [];
+          self.searchResultsGenre = [];
+        axios.get('https://api.themoviedb.org/3/search/movie', {
+          params:{
+              api_key: '1824bf509354c7052f4a42663578bec1',
+              query: self.name,
+              language: self.lang,
+              page: self.currentPage
+          }
+        }).then(function (response){
+          self.totalPag = response.data.total_pages;
+          searchMovie(self.searchResults, response.data.results, self.languages);
+          for (let y = 0; y < self.searchResults.length; y++) {
+            if( self.searchResults[y].genre_ids.includes(genereCliccato)){
+              self.searchResultsGenre.push(self.searchResults[y]);
+            }
+          }
+            self.searchResults = self.searchResultsGenre;
+        });
     }
+  }
   }
 );

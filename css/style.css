@@ -264,7 +264,8 @@ main{
 }
 /* /Card movie */
 /* page list */
-.search_pages{
+.search_pages,
+.list_genres{
   width: 100%;
   text-align: center;
   padding: 10px;
@@ -318,4 +319,10 @@ main{
     width: 30px;
     height: 15px;
   }
+}
+.genere{
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  margin-right: 10px;
 }

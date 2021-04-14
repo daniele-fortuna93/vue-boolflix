@@ -80,7 +80,15 @@
         </div>
         <!-- /film home -->
         <!-- risultati ricerca -->
+
         <div class="container container_left" v-else>
+          <!-- generi -->
+          <div class="generi" v-if="searchResults.length > 0 && asideType == 'movie' ">
+            <ul class="list_genres">
+              <li class="genere" v-for="generi in listGenres" @click="showGenre(generi.id)">{{ generi.name }}</li>
+            </ul>
+          </div>
+          <!-- generi -->
           <!-- numero pagine -->
           <ul class="search_pages" v-if="totalPag > 1">
             <li class="search_page" v-if="currentPage > 10" @click="firstPage(n); currentPage = n; getPage()"><i class="fas fa-step-forward icon_reverse"></i></li>
@@ -125,7 +133,7 @@
           <!-- numero pagine -->
           <ul class="search_pages" v-if="totalPag > 1">
             <li class="search_page" v-if="currentPage > 10" @click="firstPage(n); currentPage = n; getPage()"><i class="fas fa-step-forward icon_reverse"></i></li>
-            <li class="search_page" v-for="page in totalPag" @click="changePage(page); currentPage = page; getPage()" :class="[(currentPage == page ? 'active_page' : ''), (page > (currentPage + 10) ? 'page_display_none' : ''), page < pageShow ? 'page_display_none' : '']">{{ page }}</li>
+            <li class="search_page"  v-for="page in totalPag" @click="changePage(page); currentPage = page; getPage();" :class="[(currentPage == page ? 'active_page' : ''), (page > (currentPage + 10) ? 'page_display_none' : ''), page < pageShow ? 'page_display_none' : '']">{{ page }}</li>
             <li class="search_page" v-if="totalPag > 10 && (totalPag - currentPage > 10)" @click="lastPage(totalPag); currentPage = totalPag; getPage()"><i class="fas fa-step-forward"></i></li>
           </ul>
           <!-- /numero pagine -->
